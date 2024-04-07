@@ -55,6 +55,18 @@ class HomeScreen extends StatelessWidget {
                 child: Container(
                   decoration: BoxDecoration(color: Colors.transparent),
                 ),
+              ),
+              SizedBox(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text("📍 Palakkad",style: apptheme.Fontstyle1,),
+                    apptheme.sizedbox1,
+                    Text("Good Morning",style: apptheme.FontStyle2,),
+                  ],
+                ),
               )
             ],
           ),
