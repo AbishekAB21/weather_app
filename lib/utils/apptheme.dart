@@ -6,6 +6,7 @@ abstract class AppTheme {
   final Color primaryColor;
   final Color secondaryColor;
   final Color terinaryColor;
+  final Color defaultColor;
   final Color dividerColor;
   
   final TextStyle Fontstyle1;
@@ -21,6 +22,7 @@ abstract class AppTheme {
     required this.primaryColor, 
     required this.secondaryColor,
     required this.terinaryColor,
+    required this.defaultColor,
     required this.dividerColor,
 
     required this.Fontstyle1,
@@ -41,6 +43,7 @@ class AppDefaultTheme extends AppTheme {
         primaryColor: Colors.orange, 
         secondaryColor: Colors.deepPurple,
         terinaryColor: const Color.fromARGB(255, 223, 207, 60),
+        defaultColor: Colors.black,
         dividerColor: Colors.grey,
 
         Fontstyle1: TextStyle(
