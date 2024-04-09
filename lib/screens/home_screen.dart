@@ -4,6 +4,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
+import 'package:weather_app/bloc/weather_bloc_bloc.dart';
 import 'package:weather_app/utils/apptheme.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -58,170 +61,225 @@ class HomeScreen extends StatelessWidget {
                   decoration: BoxDecoration(color: Colors.transparent),
                 ),
               ),
-              SizedBox(
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "📍 Palakkad",
-                      style: apptheme.Fontstyle1,
-                    ),
-                    apptheme.sizedbox1,
-                    Text(
-                      "Good Morning",
-                      style: apptheme.FontStyle2,
-                    ),
-                    Image.asset("assets/6.png"),
-                    Center(
-                      child: Text(
-                        "41°C",
-                        style: apptheme.FontStyle3,
-                      ),
-                    ),
-                    Center(
-                      child: Text(
-                        "MOSTLY SUNNY",
-                        style: apptheme.FontStyle4,
-                      ),
-                    ),
-                    Center(
-                      child: Text(
-                        "Monday 8 • 11:55am",
-                        style: apptheme.FontStyle5,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 16,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            Image.asset(
-                              "assets/11.png",
-                              scale: 8,
+              BlocBuilder<WeatherBlocBloc, WeatherBlocState>(
+                builder: (context, state) {
+                  if (state is WeatherBlocSuccess) {
+                    return SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.height,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "📍 ${state.weather.areaName}",
+                            style: apptheme.Fontstyle1,
+                          ),
+                          apptheme.sizedbox1,
+                          Text(
+                            "Good Morning",
+                            style: apptheme.FontStyle2,
+                          ),
+                          Image.asset("assets/6.png"),
+                          Center(
+                            child: Text(
+                              "${state.weather.temperature!.celsius!.round()}°C",
+                              style: apptheme.FontStyle3,
                             ),
-                            SizedBox(
-                              width: 5,
+                          ),
+                          Center(
+                            child: Text(
+                              "${state.weather.weatherMain!.toUpperCase()}",
+                              style: apptheme.FontStyle4,
                             ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Sunrise",
-                                  style: apptheme.Fontstyle6,
+                          ),
+                          Center(
+                            child: Text(
+                              DateFormat('EEEE dd')
+                                  .add_jm()
+                                  .format(state.weather.date!),
+                              style: apptheme.FontStyle5,
+                            ),
+                          ),
+                          SizedBox(
+                            height: 16,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                children: [
+                                  Image.asset(
+                                    "assets/11.png",
+                                    scale: 8,
+                                  ),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "Sunrise",
+                                        style: apptheme.Fontstyle6,
+                                      ),
+                                      SizedBox(
+                                        height: 3,
+                                      ),
+                                      Text(
+                                        DateFormat('')
+                                            .add_jm()
+                                            .format(state.weather.sunrise!),
+                                        style: apptheme.Fontstyle7,
+                                      )
+                                    ],
+                                  )
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Image.asset(
+                                    "assets/12.png",
+                                    scale: 8,
+                                  ),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "Sunset",
+                                        style: apptheme.Fontstyle6,
+                                      ),
+                                      SizedBox(
+                                        height: 3,
+                                      ),
+                                      Text(
+                                        DateFormat('')
+                                            .add_jm()
+                                            .format(state.weather.sunset!),
+                                        style: apptheme.Fontstyle7,
+                                      )
+                                    ],
+                                  )
+                                ],
+                              )
+                            ],
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 5.0),
+                            child: Divider(
+                              color: apptheme.dividerColor,
+                              thickness: 0.4,
+                            ),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                children: [
+                                  Image.asset(
+                                    "assets/14.png",
+                                    scale: 8,
+                                  ),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "Temp min",
+                                        style: apptheme.Fontstyle6,
+                                      ),
+                                      SizedBox(
+                                        height: 3,
+                                      ),
+                                      Text(
+                                        "${state.weather.tempMin!.celsius!.round()}°C",
+                                        style: apptheme.Fontstyle7,
+                                      )
+                                    ],
+                                  )
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Image.asset(
+                                    "assets/13.png",
+                                    scale: 8,
+                                  ),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "Temp max",
+                                        style: apptheme.Fontstyle6,
+                                      ),
+                                      SizedBox(
+                                        height: 3,
+                                      ),
+                                      Text(
+                                        "${state.weather.tempMax!.celsius!.round()}°C",
+                                        style: apptheme.Fontstyle7,
+                                      )
+                                    ],
+                                  )
+                                ],
+                              )
+                            ],
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 5.0),
+                            child: Divider(
+                              color: apptheme.dividerColor,
+                              thickness: 0.4,
+                            ),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Row(children: [
+                                Image.asset(
+                                  "assets/15.png",
+                                  scale: 8,
                                 ),
                                 SizedBox(
-                                  height: 3,
+                                  width: 5,
                                 ),
-                                Text(
-                                  "6:10 am",
-                                  style: apptheme.Fontstyle7,
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Wind Speed",
+                                      style: apptheme.Fontstyle6,
+                                    ),
+                                    SizedBox(
+                                      height: 3,
+                                    ),
+                                    Text(
+                                      "${state.weather.windSpeed}",
+                                      style: apptheme.Fontstyle7,
+                                    )
+                                  ],
                                 )
-                              ],
-                            )
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Image.asset(
-                              "assets/12.png",
-                              scale: 8,
-                            ),
-                            SizedBox(
-                              width: 5,
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Sunset",
-                                  style: apptheme.Fontstyle6,
-                                ),
-                                SizedBox(
-                                  height: 3,
-                                ),
-                                Text(
-                                  "6:20 pm",
-                                  style: apptheme.Fontstyle7,
-                                )
-                              ],
-                            )
-                          ],
-                        )
-                      ],
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 5.0),
-                      child: Divider(
-                        color: apptheme.dividerColor,
-                        thickness: 0.4,
+                              ])
+                            ],
+                          )
+                        ],
                       ),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            Image.asset(
-                              "assets/14.png",
-                              scale: 8,
-                            ),
-                            SizedBox(
-                              width: 5,
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Temp min",
-                                  style: apptheme.Fontstyle6,
-                                ),
-                                SizedBox(
-                                  height: 3,
-                                ),
-                                Text(
-                                  "27°C",
-                                  style: apptheme.Fontstyle7,
-                                )
-                              ],
-                            )
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Image.asset(
-                              "assets/13.png",
-                              scale: 8,
-                            ),
-                            SizedBox(
-                              width: 5,
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Temp max",
-                                  style: apptheme.Fontstyle6,
-                                ),
-                                SizedBox(
-                                  height: 3,
-                                ),
-                                Text(
-                                  "43°C",
-                                  style: apptheme.Fontstyle7,
-                                )
-                              ],
-                            )
-                          ],
-                        )
-                      ],
-                    )
-                  ],
-                ),
+                    );
+                  } else {
+                    return Container();
+                  }
+                },
               )
             ],
           ),
